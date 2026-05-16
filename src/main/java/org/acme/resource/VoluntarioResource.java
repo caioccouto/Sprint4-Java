@@ -2,49 +2,49 @@ package org.acme.resource;
 
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.*;
-import org.acme.bo.DentistaBO;
-import org.acme.domain.Dentista;
+import org.acme.bo.VoluntarioBO;
+import org.acme.domain.Voluntario;
 
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-@Path("/dentista")
-public class DentistaResource {
+@Path("/voluntarios")
+public class VoluntarioResource {
 
-    private DentistaBO dentBo = new DentistaBO();
+    private VoluntarioBO volBo = new VoluntarioBO();
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public ArrayList<Dentista> selecionarRs() throws ClassNotFoundException, SQLException {
-        return dentBo.selecionarBo();
+    public ArrayList<Voluntario> selecionarRs() throws ClassNotFoundException, SQLException {
+        return volBo.selecionarBo();
     }
 
     @GET
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Dentista buscarDentPorIdRs(@PathParam("id") Long id) throws ClassNotFoundException, SQLException {
-        return dentBo.buscarDentPorIdBo(id);
+    public Voluntario buscarVolPorIdRs(@PathParam("id") Long id) throws ClassNotFoundException, SQLException {
+        return volBo.buscarVolPorIdBo(id);
     }
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response inserirRs(Dentista dentista, @Context UriInfo uriInfo ) throws ClassNotFoundException, SQLException, IOException {
+    public Response inserirRs(Voluntario voluntario, @Context UriInfo uriInfo ) throws ClassNotFoundException, SQLException, IOException{
         try {
-            dentBo.inserirDentistaBo(dentista);
+            volBo.inserirVoluntarioBo(voluntario);
         } catch (IllegalArgumentException e) {
             return Response.status(Response.Status.BAD_REQUEST).entity(e.getMessage()).build();
         }
         UriBuilder builder = uriInfo.getAbsolutePathBuilder();
-        builder.path(Long.toString(dentista.getId()));
+        builder.path(Long.toString(voluntario.getId()));
         return Response.created(builder.build()).build();
     }
 
     @PUT
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response atualizarDentRs(Dentista dentista) throws ClassNotFoundException, SQLException {
+    public Response atualizarVolRs(Voluntario voluntario) throws ClassNotFoundException, SQLException {
         try {
-            dentBo.atualizarDentistaBo(dentista);
+            volBo.atualizarVoluntarioBo(voluntario);
         } catch (IllegalArgumentException e) {
             return Response.status(Response.Status.BAD_REQUEST).entity(e.getMessage()).build();
         }
@@ -54,8 +54,8 @@ public class DentistaResource {
     @DELETE
     @Path("/{id}")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response deletarDentRs(@PathParam("id") Long id) throws ClassNotFoundException, SQLException {
-        dentBo.deletarDentistaBo(id);
+    public Response deletarVolRs(@PathParam("id") Long id) throws ClassNotFoundException, SQLException {
+        volBo.deletarVoluntarioBo(id);
         return Response.ok().build();
     }
 }

@@ -30,7 +30,11 @@ public class BeneficiarioResource {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     public Response inserirRs(Beneficiario beneficiario, @Context UriInfo uriInfo) throws ClassNotFoundException, SQLException, IOException {
-        benefBo.inserirBenefBo(beneficiario);
+        try {
+            benefBo.inserirBenefBo(beneficiario);
+        } catch (IllegalArgumentException e) {
+            return Response.status(Response.Status.BAD_REQUEST).entity(e.getMessage()).build();
+        }
         UriBuilder builder = uriInfo.getAbsolutePathBuilder();
         builder.path(Long.toString(beneficiario.getId()));
         return Response.created(builder.build()).build();
@@ -39,6 +43,11 @@ public class BeneficiarioResource {
     @PUT
     @Consumes(MediaType.APPLICATION_JSON)
     public Response atualizarBenefRs(Beneficiario beneficiario) throws ClassNotFoundException, SQLException {
+        try {
+            benefBo.atualizarBenefBo(beneficiario);
+        } catch (IllegalArgumentException e) {
+            return Response.status(Response.Status.BAD_REQUEST).entity(e.getMessage()).build();
+        }
         benefBo.atualizarBenefBo(beneficiario);
         return Response.ok().build();
     }

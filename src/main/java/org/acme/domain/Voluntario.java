@@ -6,6 +6,8 @@ public class Voluntario extends Pessoa{
     private String cro;
     private LocalDate dtCadastro;
 
+    public Voluntario(){}
+
     public Voluntario(String nome, String cpf, LocalDate dtNasc, String email, String tel, Endereco endereco, String cro, LocalDate dtCadastro) {
         super(nome, cpf, dtNasc, email, tel, endereco);
         this.cro = cro;
