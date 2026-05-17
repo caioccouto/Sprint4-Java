@@ -24,7 +24,6 @@ public class BeneficiarioBO {
     }
 
     public void inserirBenefBo(Beneficiario b) throws SQLException, ClassNotFoundException, IOException {
-
         ValidacaoBO.validarEmail(b.getEmail());
 
         ViaCepService viaCepService = new ViaCepService();

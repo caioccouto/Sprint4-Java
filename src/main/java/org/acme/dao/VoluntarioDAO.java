@@ -22,7 +22,7 @@ public class VoluntarioDAO {
     public void inserirVol(Voluntario v) throws SQLException{
         String sql = "INSERT INTO VOLUNTARIO (CRO, NOME, CPF, DT_NASC, EMAIL, TELEFONE, CEP, LOGRADOURO, BAIRRO, UF, LOCALIDADE, NUMERO, COMPLEMENTO, DATA_CADASTRO) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 
-        PreparedStatement ps = conn.prepareStatement(sql);
+        PreparedStatement ps = conn.prepareStatement(sql, new String[]{"ID"});
 
         ps.setString(1, v.getCro());
         ps.setString(2, v.getNome());
@@ -30,7 +30,7 @@ public class VoluntarioDAO {
         ps.setDate(4, java.sql.Date.valueOf(v.getDtNasc()));
         ps.setString(5, v.getEmail());
         ps.setString(6, v.getTelefone());
-        ps.setString(7, v.getEndereco().getCep());
+        ps.setString(7, v.getEndereco().getCep().replaceAll("\\D", ""));
         ps.setString(8, v.getEndereco().getLogradouro());
         ps.setString(9, v.getEndereco().getBairro());
         ps.setString(10, v.getEndereco().getUf());
@@ -39,6 +39,13 @@ public class VoluntarioDAO {
         ps.setString(13, v.getEndereco().getComplemento());
         ps.setDate(14, java.sql.Date.valueOf(v.getDtCadastro()));
         ps.executeUpdate();
+
+        ResultSet rs = ps.getGeneratedKeys();
+        if (rs.next()){
+            v.setId(rs.getLong(1));
+        }
+
+        rs.close();
         ps.close();
     }
 
@@ -61,7 +68,7 @@ public class VoluntarioDAO {
         ps.setDate(2, java.sql.Date.valueOf(v.getDtNasc()));
         ps.setString(3, v.getEmail());
         ps.setString(4, v.getTelefone());
-        ps.setString(5, v.getEndereco().getCep());
+        ps.setString(5, v.getEndereco().getCep().replaceAll("\\D", ""));
         ps.setString(6, v.getEndereco().getLogradouro());
         ps.setString(7, v.getEndereco().getBairro());
         ps.setString(8, v.getEndereco().getUf());

@@ -22,14 +22,14 @@ public class DoadorDAO {
     public void inserirDoador(Doador d) throws SQLException{
         String sql = "INSERT INTO DOADOR (NOME, DOCUMENTO, DT_NASC, EMAIL, TELEFONE, CEP, LOGRADOURO, BAIRRO, UF, LOCALIDADE, NUMERO, COMPLEMENTO) values (?,?,?,?,?,?,?,?,?,?,?,?)";
 
-        PreparedStatement ps = conn.prepareStatement(sql);
+        PreparedStatement ps = conn.prepareStatement(sql, new String[]{"ID"});
 
         ps.setString(1, d.getNome());
         ps.setString(2, d.getDocumento());
         ps.setDate(3, java.sql.Date.valueOf(d.getDtNasc()));
         ps.setString(4, d.getEmail());
         ps.setString(5, d.getTelefone());
-        ps.setString(6, d.getEndereco().getCep());
+        ps.setString(6, d.getEndereco().getCep().replaceAll("\\D", ""));
         ps.setString(7, d.getEndereco().getLogradouro());
         ps.setString(8, d.getEndereco().getBairro());
         ps.setString(9, d.getEndereco().getUf());
@@ -37,6 +37,13 @@ public class DoadorDAO {
         ps.setString(11, d.getEndereco().getNumero());
         ps.setString(12, d.getEndereco().getComplemento());
         ps.executeUpdate();
+
+        ResultSet rs = ps.getGeneratedKeys();
+        if (rs.next()){
+            d.setId(rs.getLong(1));
+        }
+
+        rs.close();
         ps.close();
     }
 
@@ -59,7 +66,7 @@ public class DoadorDAO {
         ps.setDate(2, java.sql.Date.valueOf(d.getDtNasc()));
         ps.setString(3, d.getEmail());
         ps.setString(4, d.getTelefone());
-        ps.setString(5, d.getEndereco().getCep());
+        ps.setString(5, d.getEndereco().getCep().replaceAll("\\D", ""));
         ps.setString(6, d.getEndereco().getLogradouro());
         ps.setString(7, d.getEndereco().getBairro());
         ps.setString(8, d.getEndereco().getUf());

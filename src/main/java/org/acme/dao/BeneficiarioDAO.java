@@ -23,14 +23,14 @@ public class BeneficiarioDAO {
     public void inserirBenef(Beneficiario b) throws SQLException {
         String sql = "INSERT INTO BENEFICIARIO (NOME, CPF, DT_NASC, EMAIL, TELEFONE, CEP, LOGRADOURO, BAIRRO, UF, LOCALIDADE, NUMERO, COMPLEMENTO) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)";
 
-        PreparedStatement ps = conn.prepareStatement(sql);
+        PreparedStatement ps = conn.prepareStatement(sql, new String[]{"ID"});
 
         ps.setString(1, b.getNome());
         ps.setString(2, b.getCpf());
         ps.setDate(3, java.sql.Date.valueOf(b.getDtNasc()));
         ps.setString(4, b.getEmail());
         ps.setString(5, b.getTelefone());
-        ps.setString(6, b.getEndereco().getCep());
+        ps.setString(6, b.getEndereco().getCep().replaceAll("\\D", ""));
         ps.setString(7, b.getEndereco().getLogradouro());
         ps.setString(8, b.getEndereco().getBairro());
         ps.setString(9, b.getEndereco().getUf());
@@ -38,6 +38,13 @@ public class BeneficiarioDAO {
         ps.setString(11, b.getEndereco().getNumero());
         ps.setString(12, b.getEndereco().getComplemento());
         ps.executeUpdate();
+
+        ResultSet rs = ps.getGeneratedKeys();
+        if (rs.next()){
+            b.setId(rs.getLong(1));
+        }
+
+        rs.close();
         ps.close();
     }
 
@@ -60,7 +67,7 @@ public class BeneficiarioDAO {
         ps.setDate(2, java.sql.Date.valueOf(b.getDtNasc()));
         ps.setString(3, b.getEmail());
         ps.setString(4, b.getTelefone());
-        ps.setString(5, b.getEndereco().getCep());
+        ps.setString(5, b.getEndereco().getCep().replaceAll("\\D", ""));
         ps.setString(6, b.getEndereco().getLogradouro());
         ps.setString(7, b.getEndereco().getBairro());
         ps.setString(8, b.getEndereco().getUf());

@@ -42,7 +42,7 @@ public class DentistaResource {
 
     @PUT
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response atualizarDentRs(Dentista dentista) throws ClassNotFoundException, SQLException {
+    public Response atualizarDentRs(Dentista dentista) throws ClassNotFoundException, SQLException, IOException {
         try {
             dentBo.atualizarDentistaBo(dentista);
         } catch (IllegalArgumentException e) {

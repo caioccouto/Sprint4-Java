@@ -19,15 +19,33 @@ public class DoacaoDAO {
         this.conn = new ConexaoFactory().getConnection();
     }
 
+    public boolean doadorExiste(Long idDoador) throws SQLException {
+        String sql = "SELECT ID FROM DOADOR WHERE ID = ?";
+        PreparedStatement ps = conn.prepareStatement(sql);
+        ps.setLong(1, idDoador);
+        ResultSet rs = ps.executeQuery();
+        boolean existe = rs.next();
+        rs.close();
+        ps.close();
+        return existe;
+    }
+
     public void inserirDoacao(Doacao d) throws SQLException {
         String sql = "INSERT INTO DOACAO (VALOR, DESCRICAO, DOADOR_ID) VALUES (?,?,?)";
 
-        PreparedStatement ps = conn.prepareStatement(sql);
+        PreparedStatement ps = conn.prepareStatement(sql, new String[]{"ID"});
 
         ps.setDouble(1, d.getValor());
         ps.setString(2, d.getDescricao());
         ps.setLong(3, d.getDoadorId());
         ps.executeUpdate();
+
+        ResultSet rs = ps.getGeneratedKeys();
+        if (rs.next()){
+            d.setId(rs.getLong(1));
+        }
+
+        rs.close();
         ps.close();
     }
 

@@ -22,9 +22,12 @@ public class DoacaoBO {
     }
 
     public void inserirDoacaoBo(Doacao d) throws SQLException, ClassNotFoundException {
-        DoadorDAO doadorDAO = new DoadorDAO();
-
         DoacaoDAO dao = new DoacaoDAO();
+
+        if (!dao.doadorExiste(d.getDoadorId())) {
+            throw new IllegalArgumentException("Doador com ID " + d.getDoadorId() + " não encontrado.");
+        }
+
         dao.inserirDoacao(d);
     }
 

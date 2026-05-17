@@ -2,6 +2,7 @@ package org.acme.dao;
 
 import org.acme.conexao.ConexaoFactory;
 import org.acme.domain.Dentista;
+import org.acme.domain.Endereco;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -22,7 +23,7 @@ public class DentistaDAO {
     public void inserirDent(Dentista d) throws SQLException{
         String sql = "INSERT INTO DENTISTA (CRO, NOME, CPF, DT_NASC, EMAIL, TELEFONE, CEP, LOGRADOURO, BAIRRO, UF, LOCALIDADE, NUMERO, COMPLEMENTO) values (?,?,?,?,?,?,?,?,?,?,?,?,?)";
 
-        PreparedStatement ps = conn.prepareStatement(sql);
+        PreparedStatement ps = conn.prepareStatement(sql, new String[]{"ID"});
 
         ps.setString(1, d.getCro());
         ps.setString(2, d.getNome());
@@ -30,7 +31,7 @@ public class DentistaDAO {
         ps.setDate(4, java.sql.Date.valueOf(d.getDtNasc()));
         ps.setString(5, d.getEmail());
         ps.setString(6, d.getTelefone());
-        ps.setString(7, d.getEndereco().getCep());
+        ps.setString(7, d.getEndereco().getCep().replaceAll("\\D", ""));
         ps.setString(8, d.getEndereco().getLogradouro());
         ps.setString(9, d.getEndereco().getBairro());
         ps.setString(10, d.getEndereco().getUf());
@@ -38,6 +39,13 @@ public class DentistaDAO {
         ps.setString(12, d.getEndereco().getNumero());
         ps.setString(13, d.getEndereco().getComplemento());
         ps.executeUpdate();
+
+        ResultSet rs = ps.getGeneratedKeys();
+        if (rs.next()){
+            d.setId(rs.getLong(1));
+        }
+
+        rs.close();
         ps.close();
     }
 
@@ -60,7 +68,7 @@ public class DentistaDAO {
         ps.setDate(2, java.sql.Date.valueOf(d.getDtNasc()));
         ps.setString(3, d.getEmail());
         ps.setString(4, d.getTelefone());
-        ps.setString(5, d.getEndereco().getCep());
+        ps.setString(5, d.getEndereco().getCep().replaceAll("\\D", ""));
         ps.setString(6, d.getEndereco().getLogradouro());
         ps.setString(7, d.getEndereco().getBairro());
         ps.setString(8, d.getEndereco().getUf());
@@ -81,6 +89,7 @@ public class DentistaDAO {
 
         while(rs.next()){
             Dentista dentista = new Dentista();
+            Endereco endereco = new Endereco();
 
             dentista.setId(rs.getLong(1));
             dentista.setCro(rs.getString(2));
@@ -89,13 +98,14 @@ public class DentistaDAO {
             dentista.setDtNasc(rs.getDate(5).toLocalDate());
             dentista.setEmail(rs.getString(6));
             dentista.setTelefone(rs.getString(7));
-            dentista.getEndereco().setCep(rs.getString(8));
-            dentista.getEndereco().setLogradouro(rs.getString(9));
-            dentista.getEndereco().setBairro(rs.getString(10));
-            dentista.getEndereco().setUf(rs.getString(11));
-            dentista.getEndereco().setLocalidade(rs.getString(12));
-            dentista.getEndereco().setNumero(rs.getString(13));
-            dentista.getEndereco().setComplemento(rs.getString(14));
+            endereco.setCep(rs.getString(8));
+            endereco.setLogradouro(rs.getString(9));
+            endereco.setBairro(rs.getString(10));
+            endereco.setUf(rs.getString(11));
+            endereco.setLocalidade(rs.getString(12));
+            endereco.setNumero(rs.getString(13));
+            endereco.setComplemento(rs.getString(14));
+            dentista.setEndereco(endereco);
 
             listaDentistas.add(dentista);
         }
