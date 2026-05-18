@@ -38,7 +38,7 @@ public class TriagemDAO {
     }
 
     public void inserirTriagem(Triagem t) throws SQLException, ClassNotFoundException{
-        String sql = "INSERT INTO TRIAGEM (ID_BENEF, ID_VOLUN, DT_INICIO, DT_FIM, RESULTADO_TRIAGEM) VALUES (?,?,?,?,?)";
+        String sql = "INSERT INTO TRIAGEM (ID_BENEFICIARIO, ID_VOLUNTARIO, DATA_INICIO, DATA_FIM, RESULTADO) VALUES (?,?,?,?,?)";
 
         try(Connection conn = ConexaoFactory.getConnection();
             PreparedStatement ps = conn.prepareStatement(sql, new String[]{"ID"})
@@ -46,8 +46,12 @@ public class TriagemDAO {
             ps.setLong(1, t.getIdBenef());
             ps.setLong(2, t.getIdVolun());
             ps.setDate(3, java.sql.Date.valueOf(t.getDtInicio()));
-            ps.setDate(3, java.sql.Date.valueOf(t.getDtFim()));
-            ps.setString(4, t.getResultadoTriagem().name());
+            if (t.getDtFim() != null) {
+                ps.setDate(4, java.sql.Date.valueOf(t.getDtFim()));
+            } else {
+                ps.setNull(4, java.sql.Types.DATE);
+            }
+            ps.setString(5, t.getResultado().name());
             ps.executeUpdate();
 
             try(ResultSet rs = ps.getGeneratedKeys()){
@@ -70,7 +74,7 @@ public class TriagemDAO {
     }
 
     public void atualizarTriagem(Triagem t) throws SQLException, ClassNotFoundException{
-        String sql = "UPDATE TRIAGEM SET ID_BENEF=?, ID_VOLUN=?, DT_INICIO=?, DT_FIM=?, RESULTADO_TRIAGEM=? WHERE ID=?";
+        String sql = "UPDATE TRIAGEM SET ID_BENEFICIARIO=?, ID_VOLUNTARIO=?, DATA_INICIO=?, DATA_FIM=?, RESULTADO=? WHERE ID=?";
 
         try(Connection conn = ConexaoFactory.getConnection();
             PreparedStatement ps = conn.prepareStatement(sql)
@@ -78,9 +82,13 @@ public class TriagemDAO {
             ps.setLong(1, t.getIdBenef());
             ps.setLong(2, t.getIdVolun());
             ps.setDate(3, java.sql.Date.valueOf(t.getDtInicio()));
-            ps.setDate(3, java.sql.Date.valueOf(t.getDtFim()));
-            ps.setString(4, t.getResultadoTriagem().name());
-            ps.setLong(5, t.getId());
+            if (t.getDtFim() != null) {
+                ps.setDate(4, java.sql.Date.valueOf(t.getDtFim()));
+            } else {
+                ps.setNull(4, java.sql.Types.DATE);
+            }
+            ps.setString(5, t.getResultado().name());
+            ps.setLong(6, t.getId());
             ps.executeUpdate();
         }
     }
@@ -98,8 +106,8 @@ public class TriagemDAO {
                     t.setIdBenef(rs.getLong(2));
                     t.setIdVolun(rs.getLong(3));
                     t.setDtInicio(rs.getDate(4).toLocalDate());
-                    t.setDtFim(rs.getDate(4).toLocalDate());
-                    t.setResultadoTriagem(ResultadoTriagem.valueOf(rs.getString(5)));
+                    t.setDtFim(rs.getDate(5).toLocalDate());
+                    t.setResultado(ResultadoTriagem.valueOf(rs.getString(6)));
                     lista.add(t);
                 }
                 return lista;
@@ -121,8 +129,8 @@ public class TriagemDAO {
                     t.setIdBenef(rs.getLong(2));
                     t.setIdVolun(rs.getLong(3));
                     t.setDtInicio(rs.getDate(4).toLocalDate());
-                    t.setDtFim(rs.getDate(4).toLocalDate());
-                    t.setResultadoTriagem(ResultadoTriagem.valueOf(rs.getString(5)));
+                    t.setDtFim(rs.getDate(5).toLocalDate());
+                    t.setResultado(ResultadoTriagem.valueOf(rs.getString(6)));
                 }
                 return t;
             }

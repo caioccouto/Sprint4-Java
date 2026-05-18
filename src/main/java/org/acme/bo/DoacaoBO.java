@@ -24,6 +24,10 @@ public class DoacaoBO {
     public void inserirDoacaoBo(Doacao d) throws SQLException, ClassNotFoundException {
         ValidacaoBO.validarValorDoacao(d.getValor());
 
+        if (d.getDoadorId() == null) {
+            throw new IllegalArgumentException("O ID do doador é obrigatório.");
+        }
+
         DoacaoDAO dao = new DoacaoDAO();
 
         if (!dao.doadorExiste(d.getDoadorId())) {

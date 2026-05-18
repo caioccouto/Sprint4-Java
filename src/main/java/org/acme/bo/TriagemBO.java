@@ -58,10 +58,7 @@ public class TriagemBO {
         if (t.getDtInicio().isAfter(LocalDate.now())) {
             throw new IllegalArgumentException("Data de início da triagem não pode ser uma data futura.");
         }
-        if (t.getDtFim().isAfter(LocalDate.now())) {
-            throw new IllegalArgumentException("Data do fim da triagem não pode ser uma data futura.");
-        }
-        if (t.getResultadoTriagem() == null) {
+        if (t.getResultado() == null) {
             throw new IllegalArgumentException("Resultado da triagem não pode ser nulo.");
         }
     }

@@ -8,16 +8,16 @@ public class Triagem {
     private Long idVolun;
     private LocalDate dtInicio;
     private LocalDate dtFim;
-    private ResultadoTriagem resultadoTriagem;
+    private ResultadoTriagem resultado;
 
     public Triagem(){}
 
-    public Triagem(Long idBenef, Long idVolun, LocalDate dtInicio, LocalDate dtFim, ResultadoTriagem resultadoTriagem) {
+    public Triagem(Long idBenef, Long idVolun, LocalDate dtInicio, LocalDate dtFim, ResultadoTriagem resultado) {
         this.idBenef = idBenef;
         this.idVolun = idVolun;
         this.dtInicio = dtInicio;
         this.dtFim = dtFim;
-        this.resultadoTriagem = resultadoTriagem;
+        this.resultado = resultado;
     }
 
     public Long getId() {
@@ -60,11 +60,11 @@ public class Triagem {
         this.dtFim = dtFim;
     }
 
-    public ResultadoTriagem getResultadoTriagem() {
-        return resultadoTriagem;
+    public ResultadoTriagem getResultado() {
+        return resultado;
     }
 
-    public void setResultadoTriagem(ResultadoTriagem resultadoTriagem) {
-        this.resultadoTriagem = resultadoTriagem;
+    public void setResultado(ResultadoTriagem resultado) {
+        this.resultado = resultado;
     }
 }

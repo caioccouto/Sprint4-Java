@@ -26,7 +26,7 @@ public class DoacaoDAO {
     }
 
     public void inserirDoacao(Doacao d) throws SQLException, ClassNotFoundException{
-        String sql = "INSERT INTO DOACAO (VALOR, DESCRICAO, DOADOR_ID) VALUES (?,?,?)";
+        String sql = "INSERT INTO DOACAO (VALOR, DESCRICAO, ID_DOADOR) VALUES (?,?,?)";
 
         try(Connection conn = ConexaoFactory.getConnection();
             PreparedStatement ps = conn.prepareStatement(sql, new String[]{"ID"})
