@@ -87,7 +87,7 @@ public class TriagemDAO {
 
     public List<Triagem> selecionar() throws SQLException, ClassNotFoundException{
         List<Triagem> lista = new ArrayList<>();
-        String sql = "SELECT * FROM TRIAGEM";
+        String sql = "SELECT * FROM TRIAGEM ORDER BY ID";
         try(Connection conn = ConexaoFactory.getConnection();
             PreparedStatement ps = conn.prepareStatement(sql)
         ){

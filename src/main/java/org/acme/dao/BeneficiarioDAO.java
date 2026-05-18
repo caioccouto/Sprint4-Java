@@ -76,7 +76,7 @@ public class BeneficiarioDAO {
 
     public List<Beneficiario> selecionar() throws SQLException, ClassNotFoundException{
         List<Beneficiario> lista = new ArrayList<>();
-        String sql = "SELECT * FROM BENEFICIARIO";
+        String sql = "SELECT * FROM BENEFICIARIO ORDER BY ID";
 
         try(Connection conn = ConexaoFactory.getConnection();
             PreparedStatement ps = conn.prepareStatement(sql)

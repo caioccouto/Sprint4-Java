@@ -70,7 +70,7 @@ public class DoacaoDAO {
 
     public List<Doacao> selecionar() throws SQLException, ClassNotFoundException{
         List<Doacao> lista = new ArrayList<>();
-        String sql = "SELECT * FROM DOACAO";
+        String sql = "SELECT * FROM DOACAO ORDER BY ID";
 
         try(Connection conn = ConexaoFactory.getConnection();
             PreparedStatement ps = conn.prepareStatement(sql)

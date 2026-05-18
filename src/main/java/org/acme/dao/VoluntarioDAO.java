@@ -79,7 +79,7 @@ public class VoluntarioDAO {
 
     public List<Voluntario> selecionar() throws SQLException, ClassNotFoundException{
         List<Voluntario> listaVoluntarios = new ArrayList<>();
-        String sql = "SELECT * FROM VOLUNTARIOS";
+        String sql = "SELECT * FROM VOLUNTARIOS ORDER BY ID";
         try(Connection conn = ConexaoFactory.getConnection();
             PreparedStatement ps = conn.prepareStatement(sql)
         ){

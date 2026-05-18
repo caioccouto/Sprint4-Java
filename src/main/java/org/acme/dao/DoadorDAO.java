@@ -76,7 +76,7 @@ public class DoadorDAO {
 
     public List<Doador> selecionar() throws SQLException, ClassNotFoundException{
         List<Doador> listaDoadores = new ArrayList<>();
-        String sql = "SELECT * FROM DOADOR";
+        String sql = "SELECT * FROM DOADOR ORDER BY ID";
 
         try(Connection conn = ConexaoFactory.getConnection();
             PreparedStatement ps = conn.prepareStatement(sql)
