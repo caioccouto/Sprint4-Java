@@ -1,6 +1,7 @@
 package org.acme.dao;
 
 import org.acme.conexao.ConexaoFactory;
+import org.acme.domain.Endereco;
 import org.acme.domain.Voluntario;
 
 import java.sql.Connection;
@@ -90,6 +91,7 @@ public class VoluntarioDAO {
 
         while(rs.next()){
             Voluntario voluntario = new Voluntario();
+            Endereco endereco = new Endereco();
 
             voluntario.setId(rs.getLong(1));
             voluntario.setCro(rs.getString(2));
@@ -98,14 +100,15 @@ public class VoluntarioDAO {
             voluntario.setDtNasc(rs.getDate(5).toLocalDate());
             voluntario.setEmail(rs.getString(6));
             voluntario.setTelefone(rs.getString(7));
-            voluntario.getEndereco().setCep(rs.getString(8));
-            voluntario.getEndereco().setLogradouro(rs.getString(9));
-            voluntario.getEndereco().setBairro(rs.getString(10));
-            voluntario.getEndereco().setUf(rs.getString(11));
-            voluntario.getEndereco().setLocalidade(rs.getString(12));
-            voluntario.getEndereco().setNumero(rs.getString(13));
-            voluntario.getEndereco().setComplemento(rs.getString(14));
+            endereco.setCep(rs.getString(8));
+            endereco.setLogradouro(rs.getString(9));
+            endereco.setBairro(rs.getString(10));
+            endereco.setUf(rs.getString(11));
+            endereco.setLocalidade(rs.getString(12));
+            endereco.setNumero(rs.getString(13));
+            endereco.setComplemento(rs.getString(14));
             voluntario.setDtCadastro(rs.getDate(15).toLocalDate());
+            voluntario.setEndereco(endereco);
 
             listaVoluntarios.add(voluntario);
         }
@@ -125,6 +128,7 @@ public class VoluntarioDAO {
 
         if (rs.next()) {
             voluntario = new Voluntario();
+            Endereco endereco = new Endereco();
 
             voluntario.setId(rs.getLong(1));
             voluntario.setCro(rs.getString(2));
@@ -133,14 +137,15 @@ public class VoluntarioDAO {
             voluntario.setDtNasc(rs.getDate(5).toLocalDate());
             voluntario.setEmail(rs.getString(6));
             voluntario.setTelefone(rs.getString(7));
-            voluntario.getEndereco().setCep(rs.getString(8));
-            voluntario.getEndereco().setLogradouro(rs.getString(9));
-            voluntario.getEndereco().setBairro(rs.getString(10));
-            voluntario.getEndereco().setUf(rs.getString(11));
-            voluntario.getEndereco().setLocalidade(rs.getString(12));
-            voluntario.getEndereco().setNumero(rs.getString(13));
-            voluntario.getEndereco().setComplemento(rs.getString(14));
+            endereco.setCep(rs.getString(8));
+            endereco.setLogradouro(rs.getString(9));
+            endereco.setBairro(rs.getString(10));
+            endereco.setUf(rs.getString(11));
+            endereco.setLocalidade(rs.getString(12));
+            endereco.setNumero(rs.getString(13));
+            endereco.setComplemento(rs.getString(14));
             voluntario.setDtCadastro(rs.getDate(15).toLocalDate());
+            voluntario.setEndereco(endereco);
         }
 
         rs.close();

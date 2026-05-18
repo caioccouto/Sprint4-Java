@@ -26,10 +26,15 @@ public class VoluntarioBO {
     }
 
     public void inserirVoluntarioBo(Voluntario v) throws SQLException, ClassNotFoundException, IOException {
-        String cep = v.getEndereco().getCep();
+        ValidacaoBO.validarEmail(v.getEmail());
+        ValidacaoBO.validarCpf(v.getCpf());
+        ValidacaoBO.validarTelefone(v.getTelefone());
+        ValidacaoBO.validarNome(v.getNome());
+        ValidacaoBO.validarCep(v.getEndereco().getCep());
+        ValidacaoBO.validarDataNasc(v.getDtNasc());
 
         ViaCepService viaCepService = new ViaCepService();
-        Endereco enderecoCompleto = viaCepService.getEndereco(cep);
+        Endereco enderecoCompleto = viaCepService.getEndereco(v.getEndereco().getCep());
 
         enderecoCompleto.setNumero(v.getEndereco().getNumero());
         enderecoCompleto.setComplemento(v.getEndereco().getComplemento());
@@ -41,9 +46,22 @@ public class VoluntarioBO {
         volDao.inserirVol(v);
     }
 
-    public void atualizarVoluntarioBo(Voluntario v) throws SQLException, ClassNotFoundException{
-        VoluntarioDAO volDao = new VoluntarioDAO();
+    public void atualizarVoluntarioBo(Voluntario v) throws SQLException, ClassNotFoundException, IOException {
+        ValidacaoBO.validarEmail(v.getEmail());
+        ValidacaoBO.validarTelefone(v.getTelefone());
+        ValidacaoBO.validarNome(v.getNome());
+        ValidacaoBO.validarCep(v.getEndereco().getCep());
+        ValidacaoBO.validarDataNasc(v.getDtNasc());
 
+        ViaCepService viaCepService = new ViaCepService();
+        Endereco enderecoCompleto = viaCepService.getEndereco(v.getEndereco().getCep());
+
+        enderecoCompleto.setNumero(v.getEndereco().getNumero());
+        enderecoCompleto.setComplemento(v.getEndereco().getComplemento());
+
+        v.setEndereco(enderecoCompleto);
+
+        VoluntarioDAO volDao = new VoluntarioDAO();
         volDao.atualizarVol(v);
     }
 

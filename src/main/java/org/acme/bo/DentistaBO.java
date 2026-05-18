@@ -27,6 +27,11 @@ public class DentistaBO {
 
     public void inserirDentistaBo(Dentista d) throws SQLException, ClassNotFoundException, IOException {
         ValidacaoBO.validarEmail(d.getEmail());
+        ValidacaoBO.validarCpf(d.getCpf());
+        ValidacaoBO.validarTelefone(d.getTelefone());
+        ValidacaoBO.validarNome(d.getNome());
+        ValidacaoBO.validarCep(d.getEndereco().getCep());
+        ValidacaoBO.validarDataNasc(d.getDtNasc());
 
         ViaCepService viaCepService = new ViaCepService();
         Endereco enderecoCompleto = viaCepService.getEndereco(d.getEndereco().getCep());
@@ -42,6 +47,12 @@ public class DentistaBO {
     }
 
     public void atualizarDentistaBo(Dentista d) throws SQLException, ClassNotFoundException, IOException {
+        ValidacaoBO.validarEmail(d.getEmail());
+        ValidacaoBO.validarTelefone(d.getTelefone());
+        ValidacaoBO.validarNome(d.getNome());
+        ValidacaoBO.validarCep(d.getEndereco().getCep());
+        ValidacaoBO.validarDataNasc(d.getDtNasc());
+
         ViaCepService viaCepService = new ViaCepService();
         Endereco enderecoCompleto = viaCepService.getEndereco(d.getEndereco().getCep());
 

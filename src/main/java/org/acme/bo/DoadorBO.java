@@ -24,6 +24,12 @@ public class DoadorBO {
     }
 
     public void inserirDoadorBo(Doador d) throws SQLException, ClassNotFoundException, IOException {
+        ValidacaoBO.validarEmail(d.getEmail());
+        ValidacaoBO.validarCpfOuCnpj(d.getDocumento());
+        ValidacaoBO.validarTelefone(d.getTelefone());
+        ValidacaoBO.validarNome(d.getNome());
+        ValidacaoBO.validarCep(d.getEndereco().getCep());
+        ValidacaoBO.validarDataNasc(d.getDtNasc());
 
         ViaCepService viaCepService = new ViaCepService();
         Endereco enderecoCompleto = viaCepService.getEndereco(d.getEndereco().getCep());
@@ -35,9 +41,22 @@ public class DoadorBO {
         dao.inserirDoador(d);
     }
 
-    public void atualizarDoadorBo(Doador d) throws SQLException, ClassNotFoundException {
-        DoadorDAO dao = new DoadorDAO();
+    public void atualizarDoadorBo(Doador d) throws SQLException, ClassNotFoundException, IOException {
+        ValidacaoBO.validarEmail(d.getEmail());
+        ValidacaoBO.validarTelefone(d.getTelefone());
+        ValidacaoBO.validarNome(d.getNome());
+        ValidacaoBO.validarCep(d.getEndereco().getCep());
+        ValidacaoBO.validarDataNasc(d.getDtNasc());
 
+        ViaCepService viaCepService = new ViaCepService();
+        Endereco enderecoCompleto = viaCepService.getEndereco(d.getEndereco().getCep());
+
+        enderecoCompleto.setNumero(d.getEndereco().getNumero());
+        enderecoCompleto.setComplemento(d.getEndereco().getComplemento());
+
+        d.setEndereco(enderecoCompleto);
+
+        DoadorDAO dao = new DoadorDAO();
         dao.atualizarDoador(d);
     }
 

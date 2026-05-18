@@ -2,6 +2,7 @@ package org.acme.dao;
 
 import org.acme.conexao.ConexaoFactory;
 import org.acme.domain.Doador;
+import org.acme.domain.Endereco;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -87,6 +88,7 @@ public class DoadorDAO {
 
         while(rs.next()){
             Doador doador = new Doador();
+            Endereco endereco = new Endereco();
 
             doador.setId(rs.getLong(1));
             doador.setNome(rs.getString(2));
@@ -94,13 +96,14 @@ public class DoadorDAO {
             doador.setDtNasc(rs.getDate(4).toLocalDate());
             doador.setEmail(rs.getString(5));
             doador.setTelefone(rs.getString(6));
-            doador.getEndereco().setCep(rs.getString(7));
-            doador.getEndereco().setLogradouro(rs.getString(8));
-            doador.getEndereco().setBairro(rs.getString(9));
-            doador.getEndereco().setUf(rs.getString(10));
-            doador.getEndereco().setLocalidade(rs.getString(11));
-            doador.getEndereco().setNumero(rs.getString(12));
-            doador.getEndereco().setComplemento(rs.getString(13));
+            endereco.setCep(rs.getString(7));
+            endereco.setLogradouro(rs.getString(8));
+            endereco.setBairro(rs.getString(9));
+            endereco.setUf(rs.getString(10));
+            endereco.setLocalidade(rs.getString(11));
+            endereco.setNumero(rs.getString(12));
+            endereco.setComplemento(rs.getString(13));
+            doador.setEndereco(endereco);
 
             listaDoadores.add(doador);
         }
@@ -120,6 +123,7 @@ public class DoadorDAO {
 
         if (rs.next()) {
             doador = new Doador();
+            Endereco endereco = new Endereco();
 
             doador.setId(rs.getLong(1));
             doador.setNome(rs.getString(2));
@@ -127,13 +131,14 @@ public class DoadorDAO {
             doador.setDtNasc(rs.getDate(4).toLocalDate());
             doador.setEmail(rs.getString(5));
             doador.setTelefone(rs.getString(6));
-            doador.getEndereco().setCep(rs.getString(7));
-            doador.getEndereco().setLogradouro(rs.getString(8));
-            doador.getEndereco().setBairro(rs.getString(9));
-            doador.getEndereco().setUf(rs.getString(10));
-            doador.getEndereco().setLocalidade(rs.getString(11));
-            doador.getEndereco().setNumero(rs.getString(12));
-            doador.getEndereco().setComplemento(rs.getString(13));
+            endereco.setCep(rs.getString(7));
+            endereco.setLogradouro(rs.getString(8));
+            endereco.setBairro(rs.getString(9));
+            endereco.setUf(rs.getString(10));
+            endereco.setLocalidade(rs.getString(11));
+            endereco.setNumero(rs.getString(12));
+            endereco.setComplemento(rs.getString(13));
+            doador.setEndereco(endereco);
         }
 
         rs.close();

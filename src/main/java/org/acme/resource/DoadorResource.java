@@ -42,7 +42,7 @@ public class DoadorResource {
 
     @PUT
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response atualizarDoadorRs(Doador doador) throws ClassNotFoundException, SQLException {
+    public Response atualizarDoadorRs(Doador doador) throws ClassNotFoundException, SQLException, IOException {
         try {
             doadorBo.atualizarDoadorBo(doador);
         } catch (IllegalArgumentException e) {

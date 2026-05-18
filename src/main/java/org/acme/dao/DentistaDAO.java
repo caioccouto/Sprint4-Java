@@ -125,6 +125,7 @@ public class DentistaDAO {
 
         if (rs.next()) {
             dentista = new Dentista();
+            Endereco endereco = new Endereco();
 
             dentista.setId(rs.getLong(1));
             dentista.setCro(rs.getString(2));
@@ -133,13 +134,14 @@ public class DentistaDAO {
             dentista.setDtNasc(rs.getDate(5).toLocalDate());
             dentista.setEmail(rs.getString(6));
             dentista.setTelefone(rs.getString(7));
-            dentista.getEndereco().setCep(rs.getString(8));
-            dentista.getEndereco().setLogradouro(rs.getString(9));
-            dentista.getEndereco().setBairro(rs.getString(10));
-            dentista.getEndereco().setUf(rs.getString(11));
-            dentista.getEndereco().setLocalidade(rs.getString(12));
-            dentista.getEndereco().setNumero(rs.getString(13));
-            dentista.getEndereco().setComplemento(rs.getString(14));
+            endereco.setCep(rs.getString(8));
+            endereco.setLogradouro(rs.getString(9));
+            endereco.setBairro(rs.getString(10));
+            endereco.setUf(rs.getString(11));
+            endereco.setLocalidade(rs.getString(12));
+            endereco.setNumero(rs.getString(13));
+            endereco.setComplemento(rs.getString(14));
+            dentista.setEndereco(endereco);
         }
 
         rs.close();

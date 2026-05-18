@@ -42,7 +42,7 @@ public class VoluntarioResource {
 
     @PUT
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response atualizarVolRs(Voluntario voluntario) throws ClassNotFoundException, SQLException {
+    public Response atualizarVolRs(Voluntario voluntario) throws ClassNotFoundException, SQLException, IOException {
         try {
             volBo.atualizarVoluntarioBo(voluntario);
         } catch (IllegalArgumentException e) {
