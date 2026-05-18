@@ -9,7 +9,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-@Path("/voluntarios")
+@Path("/voluntario")
 public class VoluntarioResource {
 
     private VoluntarioBO volBo = new VoluntarioBO();

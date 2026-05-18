@@ -12,99 +12,101 @@ import java.util.List;
 
 public class DoacaoDAO {
 
-    public Connection conn;
-
-    public DoacaoDAO() throws SQLException, ClassNotFoundException {
-        super();
-        this.conn = new ConexaoFactory().getConnection();
-    }
-
-    public boolean doadorExiste(Long idDoador) throws SQLException {
+    public boolean doadorExiste(Long idDoador) throws SQLException, ClassNotFoundException{
         String sql = "SELECT ID FROM DOADOR WHERE ID = ?";
-        PreparedStatement ps = conn.prepareStatement(sql);
-        ps.setLong(1, idDoador);
-        ResultSet rs = ps.executeQuery();
-        boolean existe = rs.next();
-        rs.close();
-        ps.close();
-        return existe;
+
+        try(Connection conn = ConexaoFactory.getConnection();
+            PreparedStatement ps = conn.prepareStatement(sql)
+        ){
+            ps.setLong(1, idDoador);
+            try(ResultSet rs = ps.executeQuery()){
+                return rs.next();
+            }
+        }
     }
 
-    public void inserirDoacao(Doacao d) throws SQLException {
+    public void inserirDoacao(Doacao d) throws SQLException, ClassNotFoundException{
         String sql = "INSERT INTO DOACAO (VALOR, DESCRICAO, DOADOR_ID) VALUES (?,?,?)";
 
-        PreparedStatement ps = conn.prepareStatement(sql, new String[]{"ID"});
+        try(Connection conn = ConexaoFactory.getConnection();
+            PreparedStatement ps = conn.prepareStatement(sql, new String[]{"ID"})
+        ){
+            ps.setDouble(1, d.getValor());
+            ps.setString(2, d.getDescricao());
+            ps.setLong(3, d.getDoadorId());
+            ps.executeUpdate();
 
-        ps.setDouble(1, d.getValor());
-        ps.setString(2, d.getDescricao());
-        ps.setLong(3, d.getDoadorId());
-        ps.executeUpdate();
-
-        ResultSet rs = ps.getGeneratedKeys();
-        if (rs.next()){
-            d.setId(rs.getLong(1));
+            try(ResultSet rs = ps.getGeneratedKeys()){
+                if (rs.next()){
+                    d.setId(rs.getLong(1));
+                }
+            }
         }
-
-        rs.close();
-        ps.close();
     }
 
-    public void deletarDoacao(Long id) throws SQLException {
+    public void deletarDoacao(Long id) throws SQLException, ClassNotFoundException{
         String sql = "DELETE FROM DOACAO WHERE ID = ?";
 
-        PreparedStatement ps = conn.prepareStatement(sql);
-
-        ps.setLong(1, id);
-        ps.executeUpdate();
-        ps.close();
+        try(Connection conn = ConexaoFactory.getConnection();
+            PreparedStatement ps = conn.prepareStatement(sql)
+        ){
+            ps.setLong(1, id);
+            ps.executeUpdate();
+        }
     }
 
-    public void atualizarDoacao(Doacao d) throws SQLException {
+    public void atualizarDoacao(Doacao d) throws SQLException, ClassNotFoundException{
         String sql = "UPDATE DOACAO SET VALOR=?, DESCRICAO=? WHERE ID=?";
 
-        PreparedStatement ps = conn.prepareStatement(sql);
-
-        ps.setDouble(1, d.getValor());
-        ps.setString(2, d.getDescricao());
-        ps.setLong(3, d.getId());
-        ps.executeUpdate();
-        ps.close();
+        try(Connection conn = ConexaoFactory.getConnection();
+            PreparedStatement ps = conn.prepareStatement(sql)
+        ){
+            ps.setDouble(1, d.getValor());
+            ps.setString(2, d.getDescricao());
+            ps.setLong(3, d.getId());
+            ps.executeUpdate();
+        }
     }
 
-    public List<Doacao> selecionar() throws SQLException {
+    public List<Doacao> selecionar() throws SQLException, ClassNotFoundException{
         List<Doacao> lista = new ArrayList<>();
         String sql = "SELECT * FROM DOACAO";
-        PreparedStatement ps = conn.prepareStatement(sql);
-        ResultSet rs = ps.executeQuery();
 
-        while (rs.next()) {
-            Doacao d = new Doacao();
-            d.setId(rs.getLong(1));
-            d.setValor(rs.getDouble(2));
-            d.setDescricao(rs.getString(3));
-            d.setDoadorId(rs.getLong(4));
-            lista.add(d);
+        try(Connection conn = ConexaoFactory.getConnection();
+            PreparedStatement ps = conn.prepareStatement(sql)
+        ){
+            try(ResultSet rs = ps.executeQuery()){
+                while (rs.next()) {
+                    Doacao d = new Doacao();
+                    d.setId(rs.getLong(1));
+                    d.setValor(rs.getDouble(2));
+                    d.setDescricao(rs.getString(3));
+                    d.setDoadorId(rs.getLong(4));
+                    lista.add(d);
+                }
+                return lista;
+            }
         }
-        return lista;
     }
 
-    public Doacao buscarDoacaoPorId(Long id) throws SQLException {
+    public Doacao buscarDoacaoPorId(Long id) throws SQLException, ClassNotFoundException{
         Doacao d = null;
         String sql = "SELECT * FROM DOACAO WHERE ID = ?";
-        PreparedStatement ps = conn.prepareStatement(sql);
-        ps.setLong(1, id);
-        ResultSet rs = ps.executeQuery();
 
-        if (rs.next()) {
-            d = new Doacao();
-            d.setId(rs.getLong(1));
-            d.setValor(rs.getDouble(2));
-            d.setDescricao(rs.getString(3));
-            d.setDoadorId(rs.getLong(4));
+        try(Connection conn = ConexaoFactory.getConnection();
+            PreparedStatement ps = conn.prepareStatement(sql)
+        ){
+            ps.setLong(1, id);
+            try(ResultSet rs = ps.executeQuery()){
+                if (rs.next()) {
+                    d = new Doacao();
+                    d.setId(rs.getLong(1));
+                    d.setValor(rs.getDouble(2));
+                    d.setDescricao(rs.getString(3));
+                    d.setDoadorId(rs.getLong(4));
+                }
+                return d;
+            }
         }
-
-        rs.close();
-        ps.close();
-        return d;
     }
 }
