@@ -22,6 +22,8 @@ public class DoacaoBO {
     }
 
     public void inserirDoacaoBo(Doacao d) throws SQLException, ClassNotFoundException {
+        ValidacaoBO.validarValorDoacao(d.getValor());
+
         DoacaoDAO dao = new DoacaoDAO();
 
         if (!dao.doadorExiste(d.getDoadorId())) {

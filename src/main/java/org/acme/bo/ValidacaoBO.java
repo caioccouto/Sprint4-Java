@@ -20,16 +20,6 @@ public class ValidacaoBO {
         }
     }
 
-    public static void validarCnpj(String cnpj){
-        if (cnpj == null){
-            throw new IllegalArgumentException("CNPJ não pode ser nulo!");
-        }
-        String novoCnpj = cnpj.replaceAll("[^0-9]", "");
-        if (novoCnpj.length() != 11){
-            throw new IllegalArgumentException("CNPJ deve conter 11 dígitos!");
-        }
-    }
-
     public static void validarCpfOuCnpj(String documento){
         if (documento == null){
             throw new IllegalArgumentException("Documento não pode ser nulo!");

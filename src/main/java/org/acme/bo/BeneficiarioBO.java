@@ -43,12 +43,20 @@ public class BeneficiarioBO {
         dao.inserirBenef(b);
     }
 
-    public void atualizarBenefBo(Beneficiario b) throws SQLException, ClassNotFoundException {
+    public void atualizarBenefBo(Beneficiario b) throws SQLException, ClassNotFoundException, IOException {
         ValidacaoBO.validarEmail(b.getEmail());
         ValidacaoBO.validarTelefone(b.getTelefone());
         ValidacaoBO.validarNome(b.getNome());
         ValidacaoBO.validarCep(b.getEndereco().getCep());
         ValidacaoBO.validarDataNasc(b.getDtNasc());
+
+        ViaCepService viaCepService = new ViaCepService();
+        Endereco enderecoCompleto = viaCepService.getEndereco(b.getEndereco().getCep());
+
+        enderecoCompleto.setNumero(b.getEndereco().getNumero());
+        enderecoCompleto.setComplemento(b.getEndereco().getComplemento());
+
+        b.setEndereco(enderecoCompleto);
 
         BeneficiarioDAO dao = new BeneficiarioDAO();
         dao.atualizarBenef(b);

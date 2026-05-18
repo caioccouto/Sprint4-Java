@@ -42,13 +42,12 @@ public class BeneficiarioResource {
 
     @PUT
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response atualizarBenefRs(Beneficiario beneficiario) throws ClassNotFoundException, SQLException {
+    public Response atualizarBenefRs(Beneficiario beneficiario) throws ClassNotFoundException, SQLException, IOException {
         try {
             benefBo.atualizarBenefBo(beneficiario);
         } catch (IllegalArgumentException e) {
             return Response.status(Response.Status.BAD_REQUEST).entity(e.getMessage()).build();
         }
-        benefBo.atualizarBenefBo(beneficiario);
         return Response.ok().build();
     }
 

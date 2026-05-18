@@ -83,7 +83,7 @@ public class DentistaDAO {
 
     public List<Dentista> selecionar() throws SQLException {
         List<Dentista> listaDentistas = new ArrayList<>();
-        String sql = "SELECT * FROM DENTISTA";
+        String sql = "SELECT * FROM DENTISTA ORDER BY ID";
         PreparedStatement ps = conn.prepareStatement(sql);
         ResultSet rs = ps.executeQuery();
 
