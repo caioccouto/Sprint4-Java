@@ -102,13 +102,13 @@ public class TriagemDAO {
             try(ResultSet rs = ps.executeQuery()){
                 while (rs.next()) {
                     Triagem t = new Triagem();
-                    t.setId(rs.getLong(1));
-                    t.setIdBenef(rs.getLong(2));
-                    t.setIdVolun(rs.getLong(3));
-                    t.setDtInicio(rs.getDate(4).toLocalDate());
-                    java.sql.Date dataFim = rs.getDate(5);
+                    t.setId(rs.getLong("ID"));
+                    t.setIdBenef(rs.getLong("ID_BENEFICIARIO"));
+                    t.setIdVolun(rs.getLong("ID_VOLUNTARIO"));
+                    t.setDtInicio(rs.getDate("DATA_INICIO").toLocalDate());
+                    java.sql.Date dataFim = rs.getDate("DATA_FIM");
                     t.setDtFim(dataFim != null ? dataFim.toLocalDate() : null);
-                    t.setResultado(ResultadoTriagem.valueOf(rs.getString(6)));
+                    t.setResultado(ResultadoTriagem.valueOf(rs.getString("RESULTADO")));
                     lista.add(t);
                 }
                 return lista;
@@ -126,13 +126,13 @@ public class TriagemDAO {
             try(ResultSet rs = ps.executeQuery()){
                 if (rs.next()) {
                     t = new Triagem();
-                    t.setId(rs.getLong(1));
-                    t.setIdBenef(rs.getLong(2));
-                    t.setIdVolun(rs.getLong(3));
-                    t.setDtInicio(rs.getDate(4).toLocalDate());
-                    java.sql.Date dataFim = rs.getDate(5);
+                    t.setId(rs.getLong("ID"));
+                    t.setIdBenef(rs.getLong("ID_BENEFICIARIO"));
+                    t.setIdVolun(rs.getLong("ID_VOLUNTARIO"));
+                    t.setDtInicio(rs.getDate("DATA_INICIO").toLocalDate());
+                    java.sql.Date dataFim = rs.getDate("DATA_FIM");
                     t.setDtFim(dataFim != null ? dataFim.toLocalDate() : null);
-                    t.setResultado(ResultadoTriagem.valueOf(rs.getString(6)));
+                    t.setResultado(ResultadoTriagem.valueOf(rs.getString("RESULTADO")));
                 }
                 return t;
             }
