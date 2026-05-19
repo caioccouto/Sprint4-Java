@@ -41,9 +41,11 @@ public class BeneficiarioResource {
     }
 
     @PUT
+    @Path("/{id}")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response atualizarBenefRs(Beneficiario beneficiario) throws ClassNotFoundException, SQLException, IOException {
+    public Response atualizarBenefRs(@PathParam("id") Long id, Beneficiario beneficiario) throws ClassNotFoundException, SQLException, IOException {
         try {
+            beneficiario.setId(id);
             benefBo.atualizarBenefBo(beneficiario);
         } catch (IllegalArgumentException e) {
             return Response.status(Response.Status.BAD_REQUEST).entity(e.getMessage()).build();

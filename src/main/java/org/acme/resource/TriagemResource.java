@@ -40,9 +40,11 @@ public class TriagemResource {
     }
 
     @PUT
+    @Path("/{id}")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response atualizarTriagemRs(Triagem triagem) throws ClassNotFoundException, SQLException {
+    public Response atualizarTriagemRs(@PathParam("id") Long id, Triagem triagem) throws ClassNotFoundException, SQLException {
         try {
+            triagem.setId(id);
             triagemBo.atualizarTriagemBo(triagem);
         } catch (IllegalArgumentException e) {
             return Response.status(Response.Status.BAD_REQUEST).entity(e.getMessage()).build();

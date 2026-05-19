@@ -41,9 +41,11 @@ public class VoluntarioResource {
     }
 
     @PUT
+    @Path("/{id}")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response atualizarVolRs(Voluntario voluntario) throws ClassNotFoundException, SQLException, IOException {
+    public Response atualizarVolRs(@PathParam("id") Long id, Voluntario voluntario) throws ClassNotFoundException, SQLException, IOException {
         try {
+            voluntario.setId(id);
             volBo.atualizarVoluntarioBo(voluntario);
         } catch (IllegalArgumentException e) {
             return Response.status(Response.Status.BAD_REQUEST).entity(e.getMessage()).build();

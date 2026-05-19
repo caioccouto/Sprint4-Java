@@ -41,9 +41,11 @@ public class DoadorResource {
     }
 
     @PUT
+    @Path("/{id}")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response atualizarDoadorRs(Doador doador) throws ClassNotFoundException, SQLException, IOException {
+    public Response atualizarDoadorRs(@PathParam("id") Long id, Doador doador) throws ClassNotFoundException, SQLException, IOException {
         try {
+            doador.setId(id);
             doadorBo.atualizarDoadorBo(doador);
         } catch (IllegalArgumentException e) {
             return Response.status(Response.Status.BAD_REQUEST).entity(e.getMessage()).build();
