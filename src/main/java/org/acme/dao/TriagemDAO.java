@@ -106,7 +106,8 @@ public class TriagemDAO {
                     t.setIdBenef(rs.getLong(2));
                     t.setIdVolun(rs.getLong(3));
                     t.setDtInicio(rs.getDate(4).toLocalDate());
-                    t.setDtFim(rs.getDate(5).toLocalDate());
+                    java.sql.Date dataFim = rs.getDate(5);
+                    t.setDtFim(dataFim != null ? dataFim.toLocalDate() : null);
                     t.setResultado(ResultadoTriagem.valueOf(rs.getString(6)));
                     lista.add(t);
                 }
@@ -129,7 +130,8 @@ public class TriagemDAO {
                     t.setIdBenef(rs.getLong(2));
                     t.setIdVolun(rs.getLong(3));
                     t.setDtInicio(rs.getDate(4).toLocalDate());
-                    t.setDtFim(rs.getDate(5).toLocalDate());
+                    java.sql.Date dataFim = rs.getDate(5);
+                    t.setDtFim(dataFim != null ? dataFim.toLocalDate() : null);
                     t.setResultado(ResultadoTriagem.valueOf(rs.getString(6)));
                 }
                 return t;
